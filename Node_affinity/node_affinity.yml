@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: no-spinning
+spec:
+  replicas: 3
+  selector:
+   matchLabels:
+    app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+                 - key: spinning
+                   operator: NotIn
+                   values:
+                    - "yes"
+      containers:
+      - name: redis
+        image: redis
+        imagePullPolicy: IfNotPresent

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bb
+spec:
+  replicas: 3
+  selector:
+   matchLabels:
+    app: bb
+  template:
+    metadata:
+      labels:
+        app: bb
+    spec:
+      containers:
+      - name: bb
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command:
+          - sleep
+        args:
+          - "36000"
+        resources:
+          requests:
+             memory: "512Mi"
